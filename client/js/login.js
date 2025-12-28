@@ -14,8 +14,8 @@ loginForm.addEventListener('submit', async (e) => {
         const data = await res.json();
 
         if (res.ok) {
-            localStorage.setItem('token', data.token); // Save JWT
-            window.location.href = 'dashboard.html'; // Redirect
+            localStorage.setItem('token', data.token);
+            window.location.href = 'dashboard.html';
         } else {
             alert(data.message || 'Login failed');
         }

@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const authMiddleware = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
 
 /* ================= REGISTER ================= */
 router.post("/register", async (req, res) => {
@@ -17,14 +17,13 @@ router.post("/register", async (req, res) => {
 
     const user = await User.create({ name, email, password });
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.status(201).json({ token });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Registration failed" });
   }
 });
@@ -44,20 +43,19 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.json({ token });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Login failed" });
   }
 });
 
 /* ================= CHANGE PASSWORD ================= */
-router.post("/change-password", authMiddleware, async (req, res) => {
+router.post("/change-password", protect, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -76,24 +74,24 @@ router.post("/change-password", authMiddleware, async (req, res) => {
 
     res.json({ message: "Password updated successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Password update failed" });
   }
 });
 
 /* ================= DELETE ACCOUNT ================= */
-router.delete("/delete-account", authMiddleware, async (req, res) => {
+router.delete("/delete-account", protect, async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    // delete user's tasks
     const Task = require("../models/Task");
     await Task.deleteMany({ user: userId });
 
-    // delete user
     await User.findByIdAndDelete(userId);
 
     res.json({ message: "Account deleted successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Account deletion failed" });
   }
 });
