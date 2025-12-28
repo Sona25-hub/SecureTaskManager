@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Secure Task Manager</title>
+
+  <!-- YOUR EXISTING STYLE -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+  <h1>Secure Task Manager</h1>
+ <div class="header-controls">
+    <button id="toggleMode" class="btn btn-toggle">🌙</button>
+    <button id="changePasswordBtn" class="btn btn-secondary">Change Password</button>
+    <button id="deleteAccountBtn" class="btn btn-danger">Delete Account</button>
+    <button id="logoutBtn" class="btn btn-logout">Logout</button>
+</div>
+</header>
+
+<main class="dashboard-container">
+
+  <!-- Welcome -->
+  <section class="welcome-section">
+    <h2 id="welcomeUser">Welcome, User!</h2>
+  </section>
+
+  <!-- Add Task -->
+  <section class="add-task">
+    <h2>Add New Task</h2>
+
+    <form id="addTaskForm">
+      <input type="text" id="title" placeholder="Task Title" required />
+
+      <textarea id="description" placeholder="Task Description" required></textarea>
+
+      <label style="font-size:14px;">Due Date</label>
+      <input type="date" id="dueDate" />
+
+      <label style="font-size:14px;">Reminder Date & Time</label>
+      <input type="datetime-local" id="reminderAt" />
+
+      <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
+  </section>
+
+  <!-- View Task List -->
+  <section class="view-task-section">
+    <button id="viewTaskList" class="btn btn-secondary">
+      View Task List
+    </button>
+  </section>
+
+  <!-- Task Cards -->
+  <section class="task-cards">
+    <h2>Your Tasks</h2>
+    <div id="taskCardsContainer" class="cards-container"></div>
+  </section>
+
+  <!-- Task List -->
+  <section class="task-list" id="taskListSection" style="display:none;">
+    <h2>Task List</h2>
+    <ul id="taskListContainer"></ul>
+  </section>
+
+</main>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

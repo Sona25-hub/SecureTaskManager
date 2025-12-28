@@ -5,19 +5,23 @@ const taskSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: true
     },
     title: {
       type: String,
-      required: true,
+      required: true
     },
-    description: {
-      type: String,
-    },
+    description: String,
     completed: {
       type: Boolean,
-      default: false,
+      default: false
     },
+    dueDate: Date,
+
+    reminderAt: {
+      type: Date,
+      default: null
+    }
   },
   { timestamps: true }
 );

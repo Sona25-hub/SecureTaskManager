@@ -1,13 +1,9 @@
 const express = require("express");
-const authMiddleware = require("../middleware/authMiddleware");
-
 const router = express.Router();
+const { protect } = require("../middleware/authMiddleware");
 
-router.get("/dashboard", authMiddleware, (req, res) => {
-  res.json({
-    message: "Welcome to protected dashboard",
-    user: req.user,
-  });
+router.get("/", protect, (req,res)=>{
+  res.json({ message: "Welcome to protected dashboard", user: req.user });
 });
 
 module.exports = router;
